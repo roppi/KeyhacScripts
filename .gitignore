@@ -1,0 +1,10 @@
+# 特定のファイル以外は無視する
+/*
+
+# .gitignore README.md はコミット対象
+!/.gitignore
+!/README.md
+
+# その他以下のものはコミット対象
+!/extension/
+!/config.py
