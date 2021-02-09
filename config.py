@@ -6,6 +6,7 @@ Keyhac から呼び出されるメインの設定ファイル。
 """
 
 import extension.hotkeys as hotkeys
+import extension.lists as lists
 
 
 def configure(keymap):
@@ -18,3 +19,5 @@ def configure(keymap):
 
     # Hotkey 設定読込み
     hotkeys.configure(keymap)
+    # Lists 設定読込み
+    lists.configure(keymap)
