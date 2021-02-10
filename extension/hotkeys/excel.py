@@ -19,7 +19,7 @@ def configure(keymap):
     # キーマップ取得条件を設定
     app_param = {"exe_name": "EXCEL.exe"}
     # ホットキーを定義
-    hotkeys = {"F1": None,                    # ヘルプ無効
+    hotkeys = {"F1": lambda: None,            # ヘルプ無効
                "U1-N": "C-PageUp",            # [無変換]+[N]：シート移動（前）
                "U1-M": "C-PageDown",          # [無変換]+[M]：シート移動（次）
                "U1-188": "C-S-Tab",           # [無変換]+[,]：ブック移動（前）
