@@ -8,6 +8,7 @@ Keyhac から呼び出される共通処理を定義する。
 import pathlib
 import importlib
 import re
+import sys
 
 
 def load_configs(module_path_str):
@@ -36,9 +37,15 @@ def load_configs(module_path_str):
         if not re.match(r'[a-zA-Z][\w.]+\.py$', filepath.name):
             continue
 
-        # モジュール名を取得しリストに追加
-        sub_module_name = filepath.stem
-        module = importlib.import_module(f'{module_name}.{sub_module_name}')
+        # モジュールを取得しリストに追加
+        module_path = f'{module_name}.{filepath.stem}'
+        module = sys.modules.get(module_path)
+        if module:
+            # モジュールがロード済みの場合はリロード
+            importlib.reload(module)
+        else:
+            # モジュールがロードされていない場合はインポート
+            module = importlib.import_module(module_path)
 
         modules.append(module)
 
