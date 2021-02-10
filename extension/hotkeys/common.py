@@ -18,8 +18,8 @@ def configure(keymap):
                "U0-F": keymap.command_ClipboardList,                        # [英数]+[f]：クリップボードヒストリの表示
 
                "U0-A": lambda: ime_util.set_input_method(keymap),           # [英数]+[a]：IMEの有効/無効切替
-               "125": lambda: ime_util.set_input_method(keymap, False),     # [無変換]  ：IMEの無効化
-               "126": lambda: ime_util.set_input_method(keymap, True),      # [変換]    ：IMEの有効化
+               # "125": lambda: ime_util.set_input_method(keymap, False),     # [無変換]  ：IMEの無効化
+               # "126": lambda: ime_util.set_input_method(keymap, True),      # [変換]    ：IMEの有効化
 
                # よくあるCtrlキー系の処理を英数キーでも可能に
                "U0-X": "C-X",                                               # [英数]+[x]：切り取り

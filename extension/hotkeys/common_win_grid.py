@@ -49,7 +49,7 @@ def configure(keymap):
 
         nonlocal mon_idx
         win_grid.update_monitor_info()
-        mon_idx = win_grid.get_next_monitor_idx(mon_idx, -1)
+        mon_idx = win_grid.get_next_monitor_idx(mon_idx, 1)
 
     # ホットキーを定義
     hotkeys = {
