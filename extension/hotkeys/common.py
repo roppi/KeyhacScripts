@@ -11,10 +11,13 @@ import extension.utils.key_util as key_util
 
 def configure(keymap):
     # ユーザモディファイアキーを設定
-    key_util.set_user_modifier_keys(keymap)
+    # 第2引数（release_time）はタイピング速度に合わせて調整してください。
+    # [英数]キーを使った組合せが認識されない場合　→　長く設定
+    # [英数]キーを使った組合せの誤認識が多い場合　→　短く設定
+    key_util.set_user_modifier_keys(keymap, 0.3)
 
     # ホットキーを定義
-    hotkeys = {"U0-R": keymap.command_ReloadConfig,                         # 設定リロード
+    hotkeys = {"U0-R": keymap.command_ReloadConfig,                         # [英数]+[r]：設定リロード
                "U0-F": keymap.command_ClipboardList,                        # [英数]+[f]：クリップボードヒストリの表示
 
                "U0-A": lambda: ime_util.set_input_method(keymap),           # [英数]+[a]：IMEの有効/無効切替
