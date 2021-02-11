@@ -1,6 +1,9 @@
 # 特定のファイル以外は無視する
 /*
 
+# prv_ で始まる Python ファイルは除外
+prv_*.py
+
 # .gitignore README.md はコミット対象
 !/.gitignore
 !/README.md
