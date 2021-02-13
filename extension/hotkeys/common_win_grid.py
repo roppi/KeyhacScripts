@@ -7,7 +7,7 @@ Keyhac から呼び出される共通ホットキー設定。
 """
 
 from extension.utils.key_util import set_keymap_app
-from extension.utils.display_util import WindowGrid
+from extension.utils.window_util import WindowGrid
 
 
 def configure(keymap):
