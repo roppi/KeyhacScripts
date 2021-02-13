@@ -1,11 +1,52 @@
 # -*- coding: utf-8 -*-
-""" Keyhac 設定ファイル：ディスプレイ関連共通処理
+""" Keyhac 設定ファイル：ウインドウ関連共通処理
 
-Keyhac から呼び出されるディスプレイ関連の共通処理を定義する。
+Keyhac から呼び出されるウインドウ関連の共通処理を定義する。
 
 """
 
+import os
+
 import pyauto
+
+
+def activate_window(keymap, filename, **kwargs):
+    """ 指定された実行ファイルのウインドウをアクティブにする
+
+    指定された実行ファイルのウインドウをアクティブにする。
+    もし対象のウインドウが見つからない場合、実行ファイルを起動する。
+
+    Args:
+        keymap: config.py から引き渡される Keymap オブジェクト
+        filename: 実行ファイル名
+        **kwargs: ActivateWindowCommand, ShellExecuteCommand へ引渡すパラメータ
+
+    Returns:
+
+    """
+
+    activate_params = {"exe_name": None, "class_name": None, "window_text": None, "check_func": None, "force": False}
+    execute_params = {"verb": None, "filename": filename, "param": "", "directory": "", "swmode": None}
+
+    # キーワードによって取得・起動それぞれのパラメータを設定
+    for key, value in kwargs.items():
+        if key in activate_params.keys():
+            activate_params[key] = value
+        if key in execute_params.keys():
+            execute_params[key] = value
+
+    # アクティベート対象の実行ファイル名が未指定の場合は、起動対象のファイル名から取得
+    if not activate_params.get("exe_name"):
+        activate_params["exe_name"] = os.path.basename(filename)
+
+    # 指定された条件でアクティベート
+    activate_func = keymap.ActivateWindowCommand(**activate_params)
+    activate_result = activate_func()
+
+    # アクティベート対象が見つからない場合は起動
+    if not activate_result:
+        execute_func = keymap.ShellExecuteCommand(**execute_params)
+        execute_func()
 
 
 class WindowGrid:
@@ -15,6 +56,11 @@ class WindowGrid:
     ウインドウの位置・サイズをマス目（グリッド）の番号で指定可能とする。
 
     """
+
+    # ウインドウのギャップサイズ（調整用）
+    # ウインドウのクラス名:[幅の調整数, 高さの調整数]　で設定してください。
+    # Noneの場合は、標準の調整を行います。
+    Custom_Edges = {"CfilerWindowClass": [None, 8], "KeyhacWindowClass": [None, 8]}
 
     def __init__(self, keymap, rows, cols):
         """WindowGrid 初期化処理
@@ -158,6 +204,15 @@ class WindowGrid:
 
         edge_w = abs(((win_rect[2] - win_rect[0]) - (cli_rect[2] - cli_rect[0])) // 2)
         edge_h = abs((win_rect[3] - win_rect[1]) - (cli_rect[3] - cli_rect[1]))
+
+        # ユーザ指定のギャップ調整幅を適用
+        window_class_name = window.getClassName()
+        if window_class_name in self.Custom_Edges.keys():
+            edge_size = self.Custom_Edges.get(window_class_name)
+            if edge_size is not None and edge_size[0] is not None:
+                edge_w = edge_size[0]
+            if edge_size is not None and edge_size[1] is not None:
+                edge_h = edge_size[1]
 
         # print(win_rect, cli_rect, edge_w, edge_h)
 

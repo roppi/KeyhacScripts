@@ -7,6 +7,7 @@ Keyhac から呼び出される共通ホットキー設定。
 
 import extension.utils.ime_util as ime_util
 import extension.utils.key_util as key_util
+from extension.utils.window_util import activate_window
 
 
 def configure(keymap):
@@ -39,6 +40,8 @@ def configure(keymap):
                "U0-Plus": "F9",                                             # [英数]+[;]：「全角英数」に変換する
                "U0-Colon": "F10",                                           # [英数]+[:]：「半角英数」に変換する
 
+               # [英数]+[E]：内骨格を起動
+               "U0-E": lambda: activate_window(keymap, "cfiler.exe", directory="../cfiler", force=True),
                }
 
     # キーマップにホットキーを反映
