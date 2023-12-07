@@ -33,15 +33,15 @@ def configure(keymap):
                "U0-O": "C-O",                                               # [英数]+[o]：開く
                "U0-S": "C-S",                                               # [英数]+[s]：保存
 
-               # コトリエ風、入力中文字種別変更
+               # コトエリ風、入力中文字種別変更
                "U0-J": "F6",                                                # [英数]+[j]：「ひらがな」に変換する
                "U0-K": "F7",                                                # [英数]+[k]：「カタカナ」に変換する
                "U0-L": "F8",                                                # [英数]+[l]：「半角カタカナ」に変換する
                "U0-Plus": "F9",                                             # [英数]+[;]：「全角英数」に変換する
                "U0-Colon": "F10",                                           # [英数]+[:]：「半角英数」に変換する
 
-               # [英数]+[E]：内骨格を起動
-               "U0-E": lambda: activate_window(keymap, "cfiler.exe", directory="../cfiler", force=True),
+               # [英数]+[E]：あふを起動
+               "U0-E": lambda: activate_window(keymap, "afxw.exe", directory="../afxw", force=True),
                }
 
     # キーマップにホットキーを反映
