@@ -60,7 +60,9 @@ class WindowGrid:
     # ウインドウのギャップサイズ（調整用）
     # ウインドウのクラス名:[幅の調整数, 高さの調整数]　で設定してください。
     # Noneの場合は、標準の調整を行います。
-    Custom_Edges = {"CfilerWindowClass": [None, 8], "KeyhacWindowClass": [None, 8]}
+    Custom_Edges = {
+        # "KeyhacWindowClass": [None, 8]
+    }
 
     def __init__(self, keymap, rows, cols):
         """WindowGrid 初期化処理
@@ -204,6 +206,8 @@ class WindowGrid:
 
         edge_w = abs(((win_rect[2] - win_rect[0]) - (cli_rect[2] - cli_rect[0])) // 2)
         edge_h = abs((win_rect[3] - win_rect[1]) - (cli_rect[3] - cli_rect[1]))
+        
+        if edge_h > 0 : edge_h = 8
 
         # ユーザ指定のギャップ調整幅を適用
         window_class_name = window.getClassName()
