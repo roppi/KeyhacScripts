@@ -8,8 +8,11 @@ import re
 
 from keyhac import *
 
+# 修飾自動解除対象のキー（大文字で指定）
+key_util_release_keys = []
 
-def set_user_modifier_keys(keymap, release_time):
+
+def set_user_modifier_keys(keymap, release_time = 0, release_keys = []):
     """ユーザモディファイアキーの設定を行う
     以下のキーのキーコード変更とユーザモディファイアキー登録を行う
     英数キー　：U0（キーコード：124（F13））
@@ -19,6 +22,7 @@ def set_user_modifier_keys(keymap, release_time):
     Args:
         keymap: config.py から引き渡される Keymap オブジェクト
         release_time: 修飾キー自動解除時間
+        release_keys: 自動解除が必要な修飾キーの配列
 
     Notes:
         英数キーは KeyUp を取得できないため、そのままでは修飾を解除できない。
@@ -27,6 +31,8 @@ def set_user_modifier_keys(keymap, release_time):
 
     # グローバルマップを取得
     keymap_global = keymap.defineWindowKeymap()
+    # 修飾自動解除キー配列を取得
+    global key_util_release_keys
 
     def reset_modifier_wait():
         """修飾キー自動解除処理
@@ -38,6 +44,9 @@ def set_user_modifier_keys(keymap, release_time):
 
         JobQueue.defaultQueue().enqueue(JobItem(reset_modifier_async, None))
 
+    # 修飾解除が必要なキーをグローバル変数に登録
+    if release_keys: key_util_release_keys = key_util_release_keys + release_keys
+
     # --------------------------------------------------
     # 英数キー
     # --------------------------------------------------
@@ -46,8 +55,9 @@ def set_user_modifier_keys(keymap, release_time):
     # [F13](124) を ユーザモディファイアキー0に設定
     keymap.defineModifier(124, "U0")
 
-    # 単独の場合、規定時間後に修飾を解除
-    keymap_global["124"] = reset_modifier_wait
+    # 自動解除対象の場合、単独の押下で規定時間後に修飾を解除
+    if "U0" in key_util_release_keys:
+        keymap_global["124"] = reset_modifier_wait
 
     # --------------------------------------------------
     # 無変換キー
@@ -77,20 +87,16 @@ def set_keymap_app(keymap, hotkeys, *args, **kwargs):
         *args: keymap.defineWindowKeymap 向け引数
         **kwargs: keymap.defineWindowKeymap 向け引数
     """
-
-    # 修飾解除対象のキー（大文字で指定）
-    reset_keys = ["U0"]
+    # 修飾自動解除キー配列を取得
+    global key_util_release_keys
 
     def reset_modifier_key(func):
         """修飾キー自動解除ラッパー処理
         修飾キーを解除し、その後パラメータの内容を返却する。
-
         """
         def reset_modifier_wrapper():
             keymap.modifier = 0
-            # パラメータが実行可能の場合は実行結果、それ以外は内容を返却。
-            print(keymap.modifier, type(func), func)
-            return func() if callable(func) else func
+            return func()
 
         return lambda: reset_modifier_wrapper()
 
@@ -99,8 +105,8 @@ def set_keymap_app(keymap, hotkeys, *args, **kwargs):
 
     # ホットキーの内容をキーマップに設定
     for key, value in hotkeys.items():
-        is_need_reset = sum(reset_key in str.upper(key) for reset_key in reset_keys)
-        keymap_app[key] = reset_modifier_key(value) if is_need_reset else value
+        is_need_reset = sum(reset_key in str.upper(key) for reset_key in key_util_release_keys)
+        keymap_app[key] = reset_modifier_key(value) if is_need_reset and callable(value) else value
 
 
 def get_keymap_app(keymap, *args, **kwargs):

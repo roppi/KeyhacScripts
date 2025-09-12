@@ -16,9 +16,13 @@ def set_input_method(keymap, ime_status=None):
     """
 
     # IME の状態を格納する
-    ime_status = ime_status or not keymap.getWindow().getImeStatus()
+    if ime_status != None:
+        ime_status = ime_status
+    else: 
+        not keymap.getWindow().getImeStatus()
+    
     # IMEのON/OFFをセット
     keymap.wnd.setImeStatus(ime_status)
 
     # IME の状態をバルーンヘルプで表示する
-    keymap.popBalloon("ime_status", "[あ]" if ime_status else "[A]", 500)
+    keymap.popBalloon("ime_status", "[あ] IMEオン" if ime_status else "[A] IMEオフ", 500)
