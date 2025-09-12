@@ -58,5 +58,6 @@ Python の柔軟な文法と強力な機能を使うことができます。
 | | ├ display_util.py     # ディスプレイ関連ユーティリティ
 | |        ︙
 | └ common.py             # 共通処理
-└ config.py               # メインの設定ファイル（エントリポイント）
+├ config.py               # メインの設定ファイル（エントリポイント）
+└ restart_keyhac.bat      # Keyhac再起動バッチ
 </pre>

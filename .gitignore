@@ -14,3 +14,4 @@ prv_*.py
 # その他以下のものはコミット対象
 !/extension/
 !/config.py
+!/restart_keyhac.bat
