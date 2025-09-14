@@ -6,6 +6,7 @@ Keyhac から呼び出されるウインドウ関連の共通処理を定義す�
 """
 
 import os
+import re
 
 import pyauto
 
@@ -48,6 +49,34 @@ def activate_window(keymap, filename, **kwargs):
         execute_func = keymap.ShellExecuteCommand(**execute_params)
         execute_func()
 
+def open_system_folder(keymap, folder_name):
+    """ 指定されたシステムフォルダをエクスプローラで開く
+
+    Args:
+        keymap: config.py から引き渡される Keymap オブジェクト
+        folder_name: フォルダ名またはコマンド名
+
+    """
+
+    exefile = "explorer"
+
+    # 実行ファイルの場合はそのまま実行
+    if folder_name.endswith(".exe"):
+        exefile = folder_name
+        folder_name = ""
+
+    # コントロールパネルを開く場合は、control コマンドを使用
+    if folder_name.endswith(".cpl"):
+        exefile = "control"
+
+    # 管理ツールを開く場合は、mmc コマンドを使用
+    if folder_name.endswith(".msc"):
+        exefile = "mmc"
+    
+    # 環境変数が指定された場合は展開
+    folder_name = re.sub(r"%([^%]+)%", lambda m: os.environ.get(m.group(1), m.group(0)), folder_name)
+    # フォルダを開く
+    activate_window(keymap, exefile, param=folder_name, force=True)
 
 class WindowGrid:
     """グリッド式ウインドウサイズ変更クラス
