@@ -24,11 +24,12 @@ def configure(keymap):
 
     # ホットキーを定義
     # 「実際に押すキー：コンピュータに送られるキー」として設定する。
-    hotkeys = {"U1-C": lambda: None,            # キーを無効にするときは None を設定
-               "U1-E": "F2",                    # 単純なキーの置換
-               "U1-Right": ["A-H", "R"],        # 複数のキーを置換する場合はリストにする
+    hotkeys = {
+        "U1-C": lambda: None,            # キーを無効にするときは None を設定
+        "U1-E": "F2",                    # 単純なキーの置換
+        "U1-Right": ["A-H", "R"],        # 複数のキーを置換する場合はリストにする
 
-               }
+    }
 
     # キーマップにホットキーを反映
     set_keymap_app(keymap, hotkeys, **app_param)

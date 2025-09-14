@@ -25,7 +25,12 @@ def configure(keymap):
 
     # ホットキーを定義
     hotkeys = {
-        "U1-T": keymap.InputTextCommand(datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"))  # [無変換]+[T]：現在日時出力
+        "U1-0": lambda: md_to_text(),        # [無変換]+[0]：ヘッダを通常テキストに変更
+        "U1-1": lambda: md_to_header1(),     # [無変換]+[1]：ヘッダをH1に変更
+        "U1-2": lambda: md_to_header2(),     # [無変換]+[2]：ヘッダをH2に変更
+        "U1-3": lambda: md_to_header3(),     # [無変換]+[3]：ヘッダをH3に変更
+        "U1-4": lambda: md_to_header4(),     # [無変換]+[4]：ヘッダをH4に変更
+        "U1-5": lambda: md_to_header5(),     # [無変換]+[5]：ヘッダをH5に変更
     }
 
     # キーマップにホットキーを反映
@@ -47,14 +52,3 @@ def configure(keymap):
         reg_replace_line(keymap, "^(#+ )?", "#### ")
     def md_to_header5():
         reg_replace_line(keymap, "^(#+ )?", "##### ")
-
-    # キーマップを取得
-    keymap_app = get_keymap_app(keymap, **app_param)
-
-    # 動的処理をマッピング
-    keymap_app["U1-0"] = md_to_text
-    keymap_app["U1-1"] = md_to_header1
-    keymap_app["U1-2"] = md_to_header2
-    keymap_app["U1-3"] = md_to_header3
-    keymap_app["U1-4"] = md_to_header4
-    keymap_app["U1-5"] = md_to_header5

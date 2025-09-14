@@ -53,24 +53,24 @@ def configure(keymap):
 
     # ホットキーを定義
     hotkeys = {
-               "U0-188": prev_mon,  # [英数]+[,]：ウインドウ移動ディスプレイ変更（前）
-               "U0-190": next_mon,  # [英数]+[.]：ウインドウ移動ディスプレイ変更（次）
+        "U0-188": prev_mon,  # [英数]+[,]：ウインドウ移動ディスプレイ変更（前）
+        "U0-190": next_mon,  # [英数]+[.]：ウインドウ移動ディスプレイ変更（次）
 
-               # ウインドウ移動（メイン系）
-               "U0-1": lambda: win_grid.move_window(0, 0, 5, 8, mon_idx),
-               "U0-2": lambda: win_grid.move_window(0, 0, 5, 5, mon_idx),
-               "U0-3": lambda: win_grid.move_window(0, 5, 5, 3, mon_idx),
-               "U0-4": lambda: win_grid.move_window(0, 0, 5, 4, mon_idx),
-               "U0-5": lambda: win_grid.move_window(0, 4, 5, 4, mon_idx),
+        # ウインドウ移動（メイン系）
+        "U0-1": lambda: win_grid.move_window(0, 0, 5, 8, mon_idx),
+        "U0-2": lambda: win_grid.move_window(0, 0, 5, 5, mon_idx),
+        "U0-3": lambda: win_grid.move_window(0, 5, 5, 3, mon_idx),
+        "U0-4": lambda: win_grid.move_window(0, 0, 5, 4, mon_idx),
+        "U0-5": lambda: win_grid.move_window(0, 4, 5, 4, mon_idx),
 
-               # ウインドウ移動（サブ系）
-               "U0-6": lambda: win_grid.move_window(5, 0, 3, 8, mon_idx),
-               "U0-7": lambda: win_grid.move_window(5, 0, 3, 5, mon_idx),
-               "U0-8": lambda: win_grid.move_window(5, 5, 3, 3, mon_idx),
-               "U0-9": lambda: win_grid.move_window(5, 0, 3, 4, mon_idx),
-               "U0-0": lambda: win_grid.move_window(5, 4, 3, 4, mon_idx),
+        # ウインドウ移動（サブ系）
+        "U0-6": lambda: win_grid.move_window(5, 0, 3, 8, mon_idx),
+        "U0-7": lambda: win_grid.move_window(5, 0, 3, 5, mon_idx),
+        "U0-8": lambda: win_grid.move_window(5, 5, 3, 3, mon_idx),
+        "U0-9": lambda: win_grid.move_window(5, 0, 3, 4, mon_idx),
+        "U0-0": lambda: win_grid.move_window(5, 4, 3, 4, mon_idx),
 
-               }
+    }
 
     # キーマップにホットキーを反映
     set_keymap_app(keymap, hotkeys)
